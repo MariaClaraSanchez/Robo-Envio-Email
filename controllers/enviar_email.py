@@ -34,19 +34,19 @@ class Email:
                 att.add_header('Content-Disposition',
                             f'attachment; filename= {filename}')
 
-        host = 'smtp.office365.com'
-        port = 587
+        host = 'email-ssl.com.br'
 
-        with smtplib.SMTP(host, port) as server:
+        port = 465
+        #port = 587
+        
+        with smtplib.SMTP_SSL(host, port) as server:
          # Logando no servidor
             server.ehlo()
-            server.starttls()
             server.login(self.fromaddr, self.password)
         
 
             for nome,email in self.toaddr.items():
 
-                                
                 # Criando mensagem
                 message = f'''
                 <p><b>Olá! {nome} </b><br>
@@ -69,7 +69,7 @@ class Email:
                 email_msg.attach(att)
 
                 # Enviando mensagem
-                print(f'Enviando mensagem para {nome}...')
+                print(f'Enviando email para {nome}...')
                 server.sendmail(email_msg['From'], email_msg['To'], email_msg.as_string())
-                print(f'Mensagem enviada!{email}')
+                print(f'Email enviada!{email}')
                  
